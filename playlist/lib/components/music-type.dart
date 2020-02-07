@@ -17,6 +17,10 @@ class MusicType extends StatelessWidget {
 
     FontWeight textFontWeight = isSelected ? FontWeight.bold : FontWeight.w400;
 
+    Color onTapColor = this.isSelected
+        ? Color.fromRGBO(0, 0, 0, 0.1)
+        : Color.fromRGBO(255, 255, 255, 0.1);
+
     return Container(
       height: 95,
       width: 95,
