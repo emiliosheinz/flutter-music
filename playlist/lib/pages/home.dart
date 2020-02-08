@@ -2,35 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:playlist/components/header.dart';
 import 'package:playlist/components/music-card.dart';
 import 'package:playlist/components/music-type.dart';
+import 'package:playlist/mocks.dart';
 import 'package:playlist/models/song.dart';
 
-class HomePage extends StatelessWidget {
-  static const _genres = <String>['Rock', 'Sertanejo', 'Pop', 'Pagode'];
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
-  static var _songs = <Song>[
-    Song('Dance Monkey', 'Tones and I'),
-    Song('Tudo OK', 'Thiaguinho MT'),
-    Song('Não Pare', 'Midian Lima'),
-    Song('Anyone', 'Someone You Loved'),
-    Song('Girassol', 'Priscilla Alcantara'),
-    Song('Você não ama ninguém 2', 'Pineapple'),
-    Song('bad guy', 'Billie Eilish'),
-    Song('Liberdade Provisória', 'Henrique e Juliano'),
-    Song('Someone You Loved', 'Lewis Capaldi'),
-    Song('Tua presença', 'Paulo Neto'),
-    Song('Ameno', 'Era'),
-  ];
+class _HomePageState extends State<HomePage> {
+  String selectedMusicType = 'Fav';
+
+  onMusicTypePress(musicType) {
+    setState(() {
+      selectedMusicType = musicType;
+    });
+  }
 
   Widget renderMusicTypes() {
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: _genres.length,
+      itemCount: genres.length,
       itemBuilder: (context, index) {
-        bool isSelected = index == 0;
+        bool isSelected = selectedMusicType == genres[index];
 
         return MusicType(
-          title: _genres[index],
+          title: genres[index],
           isSelected: isSelected,
+          onPress: onMusicTypePress,
         );
       },
     );
@@ -38,9 +37,9 @@ class HomePage extends StatelessWidget {
 
   Widget renderMusics() {
     return ListView.builder(
-      itemCount: _songs.length,
+      itemCount: songsObj[selectedMusicType].length,
       itemBuilder: (contex, index) {
-        Song currentSong = _songs[index];
+        Song currentSong = songsObj[selectedMusicType][index];
         bool isPlaying = index == 0;
 
         return MusicCard(
